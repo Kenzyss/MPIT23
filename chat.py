@@ -4,6 +4,8 @@ from nltk.stem import WordNetLemmatizer
 
 lemmatizer = WordNetLemmatizer()
 
+lang = "rus"  # 0 - ru; 1 - eng
+
 
 def lemmatize(text):
     words = nltk.word_tokenize(text.lower())
@@ -18,8 +20,9 @@ def response(answer):
 
 
 def compare_word_lists(list1, list2, key):
+    list1 = lemmatize(list1)
     max_p = 0
-    result = []
+    result = ""
     set1 = set(list1)
     set2 = set(list2)
 
@@ -32,46 +35,25 @@ def compare_word_lists(list1, list2, key):
         percentage = len(common_words) / max_len * 100
         if percentage > max_p:
             max_p = percentage
+            result = key
 
-    # print(list2)
-    # if len(result) > 0 and result is not None:
-    return key
-
-
-lang = "rus"  # 0 - ru; 1 - eng
-if lang == "rus":
-    dictionary = {
-        'Question': 'Answer',
-        "Нужно идти на кпп": 'Я приехал, что делать дальше?',
-    }
-else:
-    dictionary = {
-        'привет': 'Привет!',
-    }
-
-question = lemmatize(input("Введите ваш вопрос: "))
-for i in dictionary.values():
-    keys = list(dictionary.keys())
-    index = list(dictionary.values()).index(i)
-    key = keys[index]
-    print(compare_word_lists(question, lemmatize(i), key))
-
-# print(f"Процент совпадения: {result:.2f}%")
+    return result
 
 
-# print(text.get(1)[1][lang])
+def get_dictionary(language):
+    if language == "rus":
+        dictionary = {
+            'Question': 'Answer',
+            "Нужно идти на кпп": 'Я приехал, что делать дальше?',
+        }
+    else:
+        dictionary = {
+            'привет': 'Привет!',
+        }
+
+    return dictionary
 
 
-# return "I do not understand..."
+dictionary = get_dictionary(lang)
 
 
-# if __name__ == "__main__":
-#     print("Let's chat! (type 'quit' to exit)")
-#     while True:
-#         # sentence = "do you use credit cards?"
-#         sentence = input("You: ")
-#         if sentence == "quit":
-#             break
-#
-#         resp = get_response(sentence)
-#         print(resp)
