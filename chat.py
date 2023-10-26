@@ -67,7 +67,6 @@ def get_dictionary(language):
         }
     else:
         dictionary = {
-            'привет': 'Привет!',
         }
 
     return dictionary

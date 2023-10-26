@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Consolas', sans-serif;
     font-weight: 400;
     font-size: 100%;
     background: #F1F1F1;
@@ -19,15 +19,12 @@ body {
     --primary: #3390ec;
 }
 
-/* CHATBOX
-=============== */
 .chatbox {
     position: absolute;
     bottom: 30px;
     right: 30px;
 }
 
-/* CONTENT IS CLOSE */
 .chatbox__support {
     display: flex;
     flex-direction: column;
@@ -39,17 +36,17 @@ body {
     transition: all .5s ease-in-out;
 }
 
-/* CONTENT ISOPEN */
 .chatbox--active {
     transform: translateY(-40px);
     z-index: 123456;
     opacity: 1;
 
+
 }
 
-/* BUTTON */
 .chatbox__button {
     text-align: right;
+
 }
 
 .send__button {
@@ -61,24 +58,23 @@ body {
 }
 
 
-/* HEADER */
 .chatbox__header {
     position: sticky;
     top: 0;
     background: orange;
 }
 
-/* MESSAGES */
 .chatbox__messages {
     margin-top: auto;
     display: flex;
     overflow-y: scroll;
     flex-direction: column-reverse;
+
 }
 
 .messages__item {
     background: orange;
-    max-width: 60.6%;
+    max-width: 60%;
     width: fit-content;
 }
 
@@ -89,8 +85,6 @@ body {
 .messages__item--visitor {
     margin-right: auto;
 }
-
-/* FOOTER */
 .chatbox__footer {
     position: sticky;
     bottom: 0;
@@ -98,14 +92,13 @@ body {
 
 .chatbox__support {
     background: #f9f9f9;
-    height: 450px;
+    height: 470px;
     width: 350px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
 
-/* HEADER */
 .chatbox__header {
     background: var(--primaryGradient);
     display: flex;
@@ -130,18 +123,20 @@ body {
 .chatbox__description--header {
     font-size: .9rem;
     color: white;
+
 }
 
-/* Messages */
 .chatbox__messages {
     padding: 0 20px;
+
 }
 
 .messages__item {
     margin-top: 10px;
     background: #E0E0E0;
     padding: 8px 12px;
-    max-width: 70%;
+    max-width: 90%;
+
 }
 
 .messages__item--visitor,
@@ -159,7 +154,6 @@ body {
     color: white;
 }
 
-/* FOOTER */
 .chatbox__footer {
     display: flex;
     flex-direction: row;
@@ -174,7 +168,7 @@ body {
 }
 
 .chatbox__footer input {
-    width: 85%;
+    width:75%;
     border: none;
     padding: 8px 8px;
     border-radius: 8px;
