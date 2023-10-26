@@ -19,13 +19,15 @@ def response(answer):
     return lemmatize(answer)
 
 
-def compare_word_lists(list1, list2, key):
+x = 0
+
+
+def max_perc(list1, list2):
+    global x
     list1 = lemmatize(list1)
-    max_p = 0
-    result = ""
+    max_p = 100
     set1 = set(list1)
     set2 = set(list2)
-
     common_words = set1.intersection(set2)
 
     if len(set1) == 0 or len(set2) == 0:
@@ -33,11 +35,23 @@ def compare_word_lists(list1, list2, key):
     else:
         max_len = max(len(list1), len(list2))
         percentage = len(common_words) / max_len * 100
-        if percentage > max_p:
+        if percentage < max_p:
             max_p = percentage
-            result = key
+            x = max_p
+    return max_p
 
-    return result
+
+def res(list1, list2, key):
+    list1 = lemmatize(list1)
+    set1 = set(list1)
+    set2 = set(list2)
+
+    common_words = set1.intersection(set2)
+    max_len = max(len(list1), len(list2))
+    percentage = len(common_words) / max_len * 100
+    if percentage > 50:
+        print(percentage)
+        return key
 
 
 def get_dictionary(language):
@@ -45,6 +59,7 @@ def get_dictionary(language):
         dictionary = {
             'Question': 'Answer',
             "Нужно идти на кпп": 'Я приехал, что делать дальше?',
+            "Нужно идти на улицу": 'Я уехал, что делать дальше?',
         }
     else:
         dictionary = {

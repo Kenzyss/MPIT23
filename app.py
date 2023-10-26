@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 
-from chat import compare_word_lists, get_dictionary, lemmatize
+from chat import res, get_dictionary, lemmatize, max_perc
 app = Flask(__name__)
 lang = "rus"
 
@@ -15,13 +15,24 @@ dictionary = get_dictionary(lang)
 @app.post("/predict")
 def predict():
     text = request.get_json().get("message")
-    for i in dictionary.values():
-        keys = list(dictionary.keys())
-        index = list(dictionary.values()).index(i)
-        key = keys[index]
-        response = compare_word_lists(text, lemmatize(i), key)
-        message = {"answer": response}
-    return message
+    best_answer = None
+    max_percentage = 0
+    response = ""
+    for key, value in dictionary.items():
+        percent = max_perc(text, lemmatize(value))
+        if percent > max_percentage:
+            max_percentage = percent
+            best_answer = value
+            keys = list(dictionary.keys())
+            index = list(dictionary.values()).index(best_answer)
+            key = keys[index]
+
+            # response = res(text, lemmatize(value), key
+            message = {"answer": key}
+        return message
+        # response = res(text, lemmatize(i), percent, key)
+        # message = {"answer": response}
+    # return message
 
 
 app.run(debug=True)
