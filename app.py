@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 from flask_mail import Message, Mail
 from chat import get_dictionary, lemmatize, percent
-
+import time
 app = Flask(__name__)
 
 app.config['MAIL_SERVER'] = 'smtp.rambler.ru'
@@ -36,21 +36,25 @@ def predict():
     best_answer = None
     max_percentage = 0
     for key, value in dictionary.items():
-        perc = percent(text, lemmatize(value))
+        perc = percent(text, value)
+
         if perc > max_percentage:
             max_percentage = perc
             best_answer = value
+
     if best_answer:
         keys = list(dictionary.keys())
         index = list(dictionary.values()).index(best_answer)
         key = keys[index]
         message = {"answer": key}
+
         return message
     else:
         message = {
             "answer": "На данный момент я не могу ответить на данный вопрос, но я его отправил на нашу оффициальную "
                       "почту."}
         # mail.send(message)
+
         return message
 
 
