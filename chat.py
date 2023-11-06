@@ -1,44 +1,17 @@
-from numba import njit
 import string
 from pymystem3 import Mystem
-import time
+
+# import time
+# start_time = time.time()
+# end_time = time.time()
+# elapsed_time = end_time - start_time
+# print('Elapsed time: ', elapsed_time)
+
 lang = "rus"  # 0 - ru; 1 - eng
 lemmatizer = Mystem()
 
-
-def lemmatize(text):
-    lemmatized_words = lemmatizer.lemmatize(text)
-    for word in lemmatized_words:
-        if word in string.punctuation or word in ",     ":
-            lemmatized_words.remove(word)
-    return lemmatized_words
-
-
-def response(answer):
-    return lemmatize(answer)
-
-
-def percent(list1, list2):
-
-    list1 = lemmatize(list1)
-    list2 = lemmatize(list2)
-    start_time = time.time()
-    max_p = 0
-    set1 = set(list1)
-    set2 = set(list2)
-    common_words = set1.intersection(set2)
-
-    if len(set1) == 0 or len(set2) == 0:
-        return 0.0
-    else:
-        max_len = max(len(list1), len(list2))
-        percentage = len(common_words) / max_len * 100
-        if percentage > max_p:
-            max_p = percentage
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    print('Elapsed time: ', elapsed_time)
-    return max_p
+lemmatize_dictionary = []
+answers_list = []
 
 
 def get_dictionary(language):
@@ -66,3 +39,40 @@ def get_dictionary(language):
 
 
 dictionary = get_dictionary(lang)
+
+def lemmatize(text):
+    lemmatized_words = lemmatizer.lemmatize(text)
+    for word in lemmatized_words:
+        if word in string.punctuation or word in ",     ":
+            lemmatized_words.remove(word)
+    return lemmatized_words
+
+
+def start():
+    for key, value in dictionary.items():
+        lemmatize_dictionary.append(lemmatize(value))
+        answers_list.append(value)
+
+
+def index_of_best(list1):
+    best_answer = None
+    max_p = 0
+    list1 = lemmatize(list1)
+    set1 = set(list1)
+    for i in lemmatize_dictionary:
+        set2 = set(i)
+        common_words = set1.intersection(set2)
+
+        if len(set1) == 0 or len(set2) == 0:
+            return 0.0
+        else:
+            max_len = max(len(list1), len(i))
+            percentage = len(common_words) / max_len * 100
+            if percentage > max_p:
+                max_p = percentage
+                best_answer = answers_list[lemmatize_dictionary.index(i)]
+    keys = list(dictionary.keys())
+    index = list(dictionary.values()).index(best_answer)
+    key = keys[index]
+
+    return key
