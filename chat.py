@@ -40,6 +40,7 @@ def get_dictionary(language):
 
 dictionary = get_dictionary(lang)
 
+
 def lemmatize(text):
     lemmatized_words = lemmatizer.lemmatize(text)
     for word in lemmatized_words:
@@ -54,25 +55,30 @@ def start():
         answers_list.append(value)
 
 
-def index_of_best(list1):
+def get_answer(list1):
     best_answer = None
     max_p = 0
+
     list1 = lemmatize(list1)
     set1 = set(list1)
-    for i in lemmatize_dictionary:
-        set2 = set(i)
+    for value in lemmatize_dictionary:
+        set2 = set(value)
         common_words = set1.intersection(set2)
 
-        if len(set1) == 0 or len(set2) == 0:
-            return 0.0
-        else:
-            max_len = max(len(list1), len(i))
-            percentage = len(common_words) / max_len * 100
-            if percentage > max_p:
-                max_p = percentage
-                best_answer = answers_list[lemmatize_dictionary.index(i)]
-    keys = list(dictionary.keys())
-    index = list(dictionary.values()).index(best_answer)
-    key = keys[index]
+        # if len(set1) == 0 or len(set2) == 0:
+        #     return 0.0
+        # else:
+        max_len = max(len(list1), len(value))
+        percentage = len(common_words) / max_len * 100
 
-    return key
+        if percentage > max_p and percentage >= 13:
+            max_p = percentage
+            best_answer = answers_list[lemmatize_dictionary.index(value)]
+    if best_answer is None:
+        msg = "На данный момент я не могу ответить на данный вопрос, но я его отправил на нашу официальную почту"
+    else:
+        keys = list(dictionary.keys())
+        index = list(dictionary.values()).index(best_answer)
+        msg = keys[index]
+
+    return msg

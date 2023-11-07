@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from flask_mail import Message, Mail
-from chat import get_dictionary, index_of_best, start, answers_list
+from chat import get_answer, start
 
 app = Flask(__name__)
 
@@ -22,8 +22,6 @@ with app.app_context():
     msg.body = body
     # mail.send(msg)
 
-dictionary = get_dictionary(lang)
-
 
 @app.get("/")
 def index_get():
@@ -33,23 +31,9 @@ def index_get():
 @app.post("/predict")
 def predict():
     text = request.get_json().get("message")
-    answer = index_of_best(text)
-    # best_answer = answers_list[answer]
-
-    # if best_answer:
-    #     keys = list(dictionary.keys())
-    #     index = list(dictionary.values()).index(best_answer)
-    #     key = keys[index]
+    answer = get_answer(text)
     message = {"answer": answer}
-
     return message
-    # else:
-    #     message = {
-    #         "answer": "На данный момент я не могу ответить на данный вопрос, но я его отправил на нашу оффициальную "
-    #                   "почту."}
-    #     # mail.send(message)
-    #
-    #     return message
 
 
 start()

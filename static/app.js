@@ -26,11 +26,15 @@ class Chatbox{
 
         if(this.state){
             chatbox.classList.add("chatbox--active")
+            let greetings = {name: "Bot", message: "Привет, я отвечу на твои вопросы!"};
+            this.messages.push(greetings);
+            this.updateText(chatbox);
         }
         else {
             chatbox.classList.remove("chatbox--active")
         }
     }
+
     onSendButton(chatbox){
         let textField = chatbox.querySelector("input");
         let first_text = textField.value
@@ -51,7 +55,7 @@ class Chatbox{
 
           .then(r => r.json())
           .then(r => {
-            let second_msg = {name: "Sam", message: r.answer};
+            let second_msg = {name: "Bot", message: r.answer};
             this.messages.push(second_msg);
             this.updateText(chatbox);
             textField.value = ""
@@ -60,7 +64,7 @@ class Chatbox{
     updateText(chatbox){
         let html = "";
         this.messages.slice().reverse().forEach(function(item, index){
-            if (item.name === "Sam"){
+            if (item.name === "Bot"){
                 html += '<div class="messages__item messages__item--visitor">' + item.message + '</div>'
             }
             else{
